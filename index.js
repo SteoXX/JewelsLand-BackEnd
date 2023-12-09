@@ -7,6 +7,7 @@ const cors = require("cors");
 // Import the routes
 const loginRouter = require("./routes/login");
 const registerRouter = require("./routes/register");
+const emailVerificationRouter = require("./routes/emailVerification");
 
 require("dotenv").config();
 
@@ -28,6 +29,7 @@ mongoose.connect(
 
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
+app.use("/verify_your_email/:token", emailVerificationRouter);
 
 // Start the server
 const port = 3001;

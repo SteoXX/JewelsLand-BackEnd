@@ -3,7 +3,7 @@ const express = require("express");
 const crypto = require("crypto");
 
 const router = express.Router();
-const emailVerification = require("../emailVerification");
+const emailVerification = require("../sendingEmailVerification");
 const User = require("../collections");
 
 // Define the POST /register route
@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const emailVerificationToken = crypto.randomBytes(20).toString("hex");
-  const emailVerificationTokenExpires = Date(Date.now() + 3600000); // 1 hour
+  const emailVerificationTokenExpires = new Date(Date.now() + 3600000); // 1 hour
   const user = new User({
     email,
     password: hashedPassword,
