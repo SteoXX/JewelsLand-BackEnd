@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const User = require("./collections");
 
-async function getNewToken(user) {
+async function getNewToken() {
   const emailVerificationToken = crypto.randomBytes(20).toString("hex");
   const emailVerificationTokenExpires = new Date(Date.now() + 3600000); // 1 hour
 
