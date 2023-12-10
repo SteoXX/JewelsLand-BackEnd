@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   const { emailVerificationToken, newToken } = req.body;
+  //TODO
   const user = await User.findOne({ emailVerificationToken });
 
   if (!newToken) {
