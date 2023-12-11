@@ -8,6 +8,10 @@ const cors = require("cors");
 const loginRouter = require("./routes/login");
 const registerRouter = require("./routes/register");
 const emailVerificationRouter = require("./routes/emailVerification");
+const getNewTokenRouter = require("./routes/getNewToken");
+const resendEmailVerificationRouter = require("./routes/resendEmailVerification");
+const forgotPasswordRouter = require("./routes/forgotPassword");
+const resetPasswordRouter = require("./routes/resetPassword");
 
 require("dotenv").config();
 
@@ -30,6 +34,10 @@ mongoose.connect(
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
 app.use("/verify_your_email/:token", emailVerificationRouter);
+app.use("/get_new_email_verification_token", getNewTokenRouter);
+app.use("/resend_email_verification", resendEmailVerificationRouter);
+app.use("/forgot_password", forgotPasswordRouter);
+app.use("/reset_password/:token", resetPasswordRouter);
 
 // Start the server
 const port = 3001;

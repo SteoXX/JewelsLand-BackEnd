@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-async function emailVerification(email, verificationToken) {
+async function emailVerification(email, changePasswordToken) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -13,8 +13,8 @@ async function emailVerification(email, verificationToken) {
   const mailOptions = {
     from: transporter.options.auth.user,
     to: email,
-    subject: "Email Verification",
-    text: `Please verify your email address by clicking on the following link: http://localhost:3000/verify_your_email/${verificationToken}`,
+    subject: "Reset Password",
+    text: `Please Reset your password by clicking on the following link: http://localhost:3000/reset_password/${changePasswordToken}`,
   };
 
   try {

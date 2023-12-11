@@ -9,6 +9,7 @@ const User = mongoose.model(
     emailVerificationToken: String,
     emailVerificationTokenExpires: Date,
     emailVerified: Boolean,
+    changePasswordToken: { type: String, default: null },
   })
 );
 
