@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../collections");
+require("dotenv").config();
 
 const router = express.Router();
 
@@ -30,9 +31,28 @@ router.post("/", async (req, res) => {
     return;
   }
 
+  // LOGIN SUCCESSFUL
+
+  // Generate a secret key
+  const jwt_secret_key = process.env.JWT_SECRET_KEY;
+
   // Generate a token
-  const token = jwt.sign({ _id: user._id }, "my_secret_key");
-  res.json({ token });
+  const sessionToken = jwt.sign({ userId: user._id }, jwt_secret_key, {
+    expiresIn: "30d",
+  });
+
+  // Save the token in the database
+  await User.updateOne(
+    { _id: user._id },
+    {
+      $set: {
+        sessionToken: sessionToken,
+      },
+    }
+  );
+
+  // Return the token
+  res.json({ sessionToken: sessionToken });
 });
 
 module.exports = router;

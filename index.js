@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const crypto = require("crypto");
+const fs = require("fs");
 
 // Import the routes
 const loginRouter = require("./routes/login");
@@ -22,7 +24,6 @@ const app = express();
 app.use(bodyParser.json());
 
 // Defining the cors for cross origin requests
-
 app.use(cors());
 
 // Connect to MongoDB
@@ -38,6 +39,10 @@ app.use("/get_new_email_verification_token", getNewTokenRouter);
 app.use("/resend_email_verification", resendEmailVerificationRouter);
 app.use("/forgot_password", forgotPasswordRouter);
 app.use("/reset_password/:token", resetPasswordRouter);
+
+// Create the secret key used for signing the token (JWT)
+const secretKey = crypto.randomBytes(32).toString("hex");
+fs.appendFile(".env", `JWT_SECRET_KEY=${secretKey}\n`);
 
 // Start the server
 const port = 3001;
