@@ -41,15 +41,7 @@ router.post("/", async (req, res) => {
     expiresIn: "30d",
   });
 
-  // Save the token in the database
-  await User.updateOne(
-    { _id: user._id },
-    {
-      $set: {
-        sessionToken: sessionToken,
-      },
-    }
-  );
+  req.session.authToken = sessionToken;
 
   // Return the token
   res.json({ sessionToken: sessionToken });

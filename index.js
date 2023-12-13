@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const crypto = require("crypto");
 const fs = require("fs");
+const MongoStore = require("connect-mongo");
+require("dotenv").config();
 
 // Import the routes
 const loginRouter = require("./routes/login");
@@ -30,6 +32,21 @@ app.use(cors());
 mongoose.connect(
   "mongodb+srv://stegarda:Stefano01@cluster0.sddayjc.mongodb.net/JewisLand",
   { useNewUrlParser: true, useUnifiedTopology: true }
+);
+
+app.use(
+  session({
+    secret: process.env.JWT_SECRET_KEY,
+    store: MongoStore.create({
+      client: mongoose.connection.getClient(),
+      dbName:
+        "mongodb+srv://stegarda:Stefano01@cluster0.sddayjc.mongodb.net/JewisLand",
+      collectionName: "sessions",
+      stringify: false,
+      autoRemove: "interval",
+      autoRemoveInterval: 1,
+    }),
+  })
 );
 
 app.use("/register", registerRouter);
