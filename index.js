@@ -24,11 +24,13 @@ const CheckLoginStatusRouter = require("./routes/checkLoginStatus");
 // Initialize the app
 const app = express();
 
+/*
 // Log each request
 app.use((req, res, next) => {
   console.log(`Received a ${req.method} request at ${req.url}`);
   next();
 });
+*/
 
 // Use body-parser to parse JSON bodies
 app.use(bodyParser.json());
@@ -38,6 +40,7 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
+    optionsSuccessStatus: 200,
   })
 );
 
@@ -46,11 +49,12 @@ mongoose.connect(
   "mongodb+srv://stegarda:Stefano01@cluster0.sddayjc.mongodb.net/JewelsLand"
 );
 
+// Inizialize the session
 app.use(
   session({
     secret: process.env.SESSION_SECRET_KEY,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: MongoStore.create({
       client: mongoose.connection.getClient(),
       dbName: "JewelsLand",
@@ -59,6 +63,11 @@ app.use(
       autoRemove: "interval",
       autoRemoveInterval: 1,
     }),
+    cookie: {
+      sameSite: "none",
+      secure: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    },
   })
 );
 

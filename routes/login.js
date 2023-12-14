@@ -47,13 +47,15 @@ router.post("/", async (req, res) => {
     expiresIn: "30d",
   });
 
+  req.session.cookie.maxAge = 30 * 24 * 60 * 1000;
   // Config the session
   req.session.userId = user._id;
   req.session.user = user;
   req.session.authToken = sessionToken;
+  console.log(req.session);
 
   // Return the token
-  res.json({ status: "LoginSuccessful", sessionToken: sessionToken });
+  res.json({ status: "LoginSuccessful" });
 });
 
 module.exports = router;
