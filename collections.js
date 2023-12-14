@@ -13,4 +13,17 @@ const User = mongoose.model(
   })
 );
 
+const Product = mongoose.model(
+  "Product",
+  new mongoose.Schema({
+    name: String,
+    description: String,
+    price: Number,
+    stock: Number,
+    image: String,
+    category: String,
+  })
+);
+
 module.exports = User;
+module.exports.Product = Product;

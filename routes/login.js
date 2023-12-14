@@ -10,30 +10,36 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
 
-  // Check if the user exists
   const user = await User.findOne({ email });
 
+  // Check if the user exists
   if (!user) {
-    res.json({ message: "Invalid email or password." });
+    res.json({
+      message: "User Not Found.",
+      status: "UserNotFound",
+    });
     return;
   }
 
   // Check if the email address is verified (REQUIRED for login)
   if (!user.emailVerified) {
-    res.json({ message: "Email not verified." });
+    res.json({ message: "Email not verified.", status: "EmailNotVerified" });
     return;
   }
 
   // Check if the password is correct
   const isValidPassword = bcrypt.compare(password, user.password);
   if (!isValidPassword) {
-    res.json({ message: "Invalid email or password." });
+    res.json({
+      message: "Invalid email or password.",
+      status: "InvalidCredentials",
+    });
     return;
   }
 
   // LOGIN SUCCESSFUL
 
-  // Generate a secret key
+  // Getting the secret key from the .env file
   const jwt_secret_key = process.env.JWT_SECRET_KEY;
 
   // Generate a token
@@ -41,10 +47,13 @@ router.post("/", async (req, res) => {
     expiresIn: "30d",
   });
 
+  // Config the session
+  req.session.userId = user._id;
+  req.session.user = user;
   req.session.authToken = sessionToken;
 
   // Return the token
-  res.json({ sessionToken: sessionToken });
+  res.json({ status: "LoginSuccessful", sessionToken: sessionToken });
 });
 
 module.exports = router;
