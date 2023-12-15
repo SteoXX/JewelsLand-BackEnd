@@ -91,7 +91,6 @@ app.use("/checkLoginStatus", CheckLoginStatusRouter);
 const secretKey = crypto.randomBytes(32).toString("hex");
 fs.appendFile(".env", `JWT_SECRET_KEY=${secretKey}\n`, (err) => {
   if (err) throw err;
-  console.log("Secret key was appended to .env file!");
 });
 
 // Start the server

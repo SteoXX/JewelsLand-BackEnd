@@ -47,13 +47,13 @@ router.post("/", async (req, res) => {
     expiresIn: "30d",
   });
 
-  req.session.cookie.maxAge = 30 * 24 * 60 * 1000;
   // Config the session
   req.session.userId = user._id;
   req.session.user = user;
   req.session.authToken = sessionToken;
-  console.log(req.session);
-
+  req.session.cookie.maxAge = 30 * 24 * 60 * 1000;
+  //req.session.cookie.path = "/";
+  console.log(req.session.cookie);
   // Return the token
   res.json({ status: "LoginSuccessful" });
 });
