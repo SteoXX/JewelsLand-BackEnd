@@ -3,11 +3,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const crypto = require("crypto");
 const fs = require("fs");
 const MongoStore = require("connect-mongo");
 const session = require("express-session");
-const http = require("http");
+const https = require("https");
 const path = require("path");
 require("dotenv").config();
 
@@ -26,13 +25,17 @@ const CheckLoginStatusRouter = require("./routes/checkLoginStatus");
 // Initialize the app
 const app = express();
 
-/*
-// Log each request
+// Trust the proxy
+app.set("trust proxy", true);
+
+// Redirect HTTP to HTTPS
 app.use((req, res, next) => {
-  console.log(`Received a ${req.method} request at ${req.url}`);
-  next();
+  if (req.protocol !== "https") {
+    res.redirect(301, `https://${req.headers.host}${req.url}`);
+  } else {
+    next();
+  }
 });
-*/
 
 // Use body-parser to parse JSON bodies
 app.use(bodyParser.json());
@@ -40,7 +43,7 @@ app.use(bodyParser.json());
 // Defining the cors for cross origin requests
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://localhost:3000",
     credentials: true,
     optionsSuccessStatus: 200,
   })
@@ -90,10 +93,10 @@ app.use("/add_products", addProductsRouter);
 app.use("/checkLoginStatus", CheckLoginStatusRouter);
 
 // Setting up the https server
-const httpsServer = http.createServer(
+const httpsServer = https.createServer(
   {
-    key: "",
-    cert: "",
+    key: fs.readFileSync(path.join(__dirname, "cert", "key.pem")),
+    cert: fs.readFileSync(path.join(__dirname, "cert", "cert.pem")),
   },
   app
 );

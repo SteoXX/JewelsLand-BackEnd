@@ -14,7 +14,7 @@ async function emailVerification(email, verificationToken) {
     from: transporter.options.auth.user,
     to: email,
     subject: "Email Verification",
-    text: `Please verify your email address by clicking on the following link: http://localhost:3000/verify_your_email/${verificationToken}`,
+    text: `Please verify your email address by clicking on the following link: https://localhost:3000/verify_your_email/${verificationToken}`,
   };
 
   try {

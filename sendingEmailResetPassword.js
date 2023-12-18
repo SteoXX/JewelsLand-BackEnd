@@ -14,7 +14,7 @@ async function emailVerification(email, changePasswordToken) {
     from: transporter.options.auth.user,
     to: email,
     subject: "Reset Password",
-    text: `Please Reset your password by clicking on the following link: http://localhost:3000/reset_password/${changePasswordToken}`,
+    text: `Please Reset your password by clicking on the following link: https://localhost:3000/reset_password/${changePasswordToken}`,
   };
 
   try {
