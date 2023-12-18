@@ -21,6 +21,7 @@ const resetPasswordRouter = require("./routes/resetPassword");
 const productsRouter = require("./routes/displayProducts");
 const addProductsRouter = require("./routes/addProducts");
 const CheckLoginStatusRouter = require("./routes/checkLoginStatus");
+const showUserAccountInfoRouter = require("./routes/showUserAccountInfo");
 
 // Initialize the app
 const app = express();
@@ -91,6 +92,9 @@ app.use("/add_products", addProductsRouter);
 
 // Routes for checking if the user is logged
 app.use("/checkLoginStatus", CheckLoginStatusRouter);
+
+// Routes for managing user account
+app.use("/showUserAccountInfo", showUserAccountInfoRouter);
 
 // Setting up the https server
 const httpsServer = https.createServer(
