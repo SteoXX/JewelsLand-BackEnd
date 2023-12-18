@@ -7,6 +7,8 @@ const crypto = require("crypto");
 const fs = require("fs");
 const MongoStore = require("connect-mongo");
 const session = require("express-session");
+const http = require("http");
+const path = require("path");
 require("dotenv").config();
 
 // Import the routes
@@ -87,12 +89,20 @@ app.use("/add_products", addProductsRouter);
 // Routes for checking if the user is logged
 app.use("/checkLoginStatus", CheckLoginStatusRouter);
 
-// Create the secret key used for signing the token (JWT)
-const secretKey = crypto.randomBytes(32).toString("hex");
-fs.appendFile(".env", `JWT_SECRET_KEY=${secretKey}\n`, (err) => {
-  if (err) throw err;
-});
+// Setting up the https server
+const httpsServer = http.createServer(
+  {
+    key: "",
+    cert: "",
+  },
+  app
+);
+
+httpsServer.listen(process.env.HTTPSPort, () =>
+  console.log(`HTTPS server is listening on port ${process.env.HTTPSPort}`)
+);
 
 // Start the server
-const port = 3001;
-app.listen(port, () => console.log(`Server is listening on port ${port}`));
+app.listen(process.env.HTTPPort, () =>
+  console.log(`HTTP server is listening on port ${process.env.HTTPPort}`)
+);
