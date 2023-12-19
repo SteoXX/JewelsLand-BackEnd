@@ -27,6 +27,7 @@ const logoutRouter = require("./routes/logout");
 const addToCartRouter = require("./routes/addToCart");
 const getCartItemsRouter = require("./routes/getCartItems");
 const removeFromCartRouter = require("./routes/removeFromCart");
+const CheckAdminStatusRouter = require("./routes/checkAdminStatus");
 
 // Initialize the app
 const app = express();
@@ -100,8 +101,9 @@ app.use("/addToCart", addToCartRouter);
 app.use("/getCartItems", getCartItemsRouter);
 app.use("/removeFromCart", removeFromCartRouter);
 
-// Routes for checking if the user is logged
+// Routes for checking user permissions
 app.use("/checkLoginStatus", CheckLoginStatusRouter);
+app.use("/checkAdminStatus", CheckAdminStatusRouter);
 
 // Routes for managing user account
 app.use("/showUserAccountInfo", showUserAccountInfoRouter);
