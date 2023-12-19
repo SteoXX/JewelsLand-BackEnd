@@ -7,10 +7,15 @@ const User = mongoose.model(
     username: { type: String, default: null },
     email: String,
     password: String,
+    admin: { type: Boolean, default: false },
     emailVerificationToken: String,
     emailVerificationTokenExpires: Date,
     emailVerified: Boolean,
     changePasswordToken: { type: String, default: null },
+    cart: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+      default: [],
+    },
   })
 );
 

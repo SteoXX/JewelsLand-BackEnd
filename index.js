@@ -22,6 +22,11 @@ const productsRouter = require("./routes/displayProducts");
 const addProductsRouter = require("./routes/addProducts");
 const CheckLoginStatusRouter = require("./routes/checkLoginStatus");
 const showUserAccountInfoRouter = require("./routes/showUserAccountInfo");
+const updateUserAccountInfoRouter = require("./routes/updateUserAccountInfo");
+const logoutRouter = require("./routes/logout");
+const addToCartRouter = require("./routes/addToCart");
+const getCartItemsRouter = require("./routes/getCartItems");
+const removeFromCartRouter = require("./routes/removeFromCart");
 
 // Initialize the app
 const app = express();
@@ -51,9 +56,7 @@ app.use(
 );
 
 // Connect to MongoDB
-mongoose.connect(
-  "mongodb+srv://stegarda:Stefano01@cluster0.sddayjc.mongodb.net/JewelsLand"
-);
+mongoose.connect(process.env.MONGODB_URL);
 
 // Inizialize the session
 app.use(
@@ -61,6 +64,7 @@ app.use(
     secret: process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: false,
+    httpOnly: false,
     store: MongoStore.create({
       client: mongoose.connection.getClient(),
       dbName: "JewelsLand",
@@ -85,16 +89,23 @@ app.use("/get_new_email_verification_token", getNewTokenRouter);
 app.use("/resend_email_verification", resendEmailVerificationRouter);
 app.use("/forgot_password", forgotPasswordRouter);
 app.use("/reset_password/:token", resetPasswordRouter);
+app.use("/logout", logoutRouter);
 
 // Routes for displaying the products
 app.use("/displayProducts", productsRouter);
 app.use("/add_products", addProductsRouter);
+
+// Routes for managing the user's cart
+app.use("/addToCart", addToCartRouter);
+app.use("/getCartItems", getCartItemsRouter);
+app.use("/removeFromCart", removeFromCartRouter);
 
 // Routes for checking if the user is logged
 app.use("/checkLoginStatus", CheckLoginStatusRouter);
 
 // Routes for managing user account
 app.use("/showUserAccountInfo", showUserAccountInfoRouter);
+app.use("/updateUserAccountInfo", updateUserAccountInfoRouter);
 
 // Setting up the https server
 const httpsServer = https.createServer(

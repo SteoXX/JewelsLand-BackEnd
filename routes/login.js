@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
   }
 
   // Check if the password is correct
-  const isValidPassword = bcrypt.compare(password, user.password);
+  const isValidPassword = await bcrypt.compare(password, user.password);
   if (!isValidPassword) {
     res.json({
       message: "Invalid email or password.",
@@ -52,7 +52,6 @@ router.post("/", async (req, res) => {
   req.session.user = user;
   req.session.authToken = sessionToken;
 
-  console.log(req.session.cookie);
   // Return the token
   res.json({ status: "LoginSuccessful" });
 });
