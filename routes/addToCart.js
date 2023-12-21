@@ -5,22 +5,20 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    // Get the user ID from the session
     const userId = req.session.userId;
+    const { productId, quantity } = req.body;
 
-    // Get the product ID from the request body
-    const productId = req.body.productId;
-
-    // Find the user in the database
     const user = await User.findById(userId);
+    const cartItem = user.cart.id(productId);
+    if (cartItem) {
+      cartItem.quantity = quantity;
+      user.markModified("cart"); // Mark the cart as modified
+    } else {
+      user.cart.push({ productId: productId, quantity: quantity });
+    }
 
-    // Add the product to the user's cart
-    user.cart.push(productId);
-
-    // Save the updated user
     await user.save();
 
-    // Send a success response
     res.json({
       status: "ProductAdded",
       message: "Product added to cart successfully!",

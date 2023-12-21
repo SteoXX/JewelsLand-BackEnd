@@ -5,11 +5,11 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    // Get the user ID from the session
     const userId = req.session.userId;
 
-    // Find the user in the database
-    const user = await User.findById(userId).populate("cart");
+    // Find the user in the database and populate the products in the cart
+    const user = await User.findById(userId).populate("cart.productId");
+    console.log(user.cart);
 
     // Send the cart items in the response
     res.json({ items: user.cart });

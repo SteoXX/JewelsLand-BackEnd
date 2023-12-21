@@ -13,7 +13,12 @@ const User = mongoose.model(
     emailVerified: Boolean,
     changePasswordToken: { type: String, default: null },
     cart: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+      type: [
+        {
+          productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+          quantity: { type: Number, default: 1 },
+        },
+      ],
       default: [],
     },
   })

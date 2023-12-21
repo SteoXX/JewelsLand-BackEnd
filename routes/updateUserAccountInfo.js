@@ -8,7 +8,6 @@ router.post("/", async (req, res) => {
 
   const userId = req.session.userId;
   const user = await User.findOne({ _id: userId });
-  console.log(req.session.userId);
 
   // Change username
   if (!user) {

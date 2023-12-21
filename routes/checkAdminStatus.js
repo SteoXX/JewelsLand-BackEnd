@@ -11,8 +11,7 @@ router.get("/", async (req, res) => {
     res.json({ message: "User not found" });
     return;
   }
-  console.log(user);
-  console.log(user.admin);
+
   if (user.admin) {
     res.json({ admin: true });
   } else {
