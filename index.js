@@ -28,6 +28,7 @@ const addToCartRouter = require("./routes/addToCart");
 const getCartItemsRouter = require("./routes/getCartItems");
 const removeFromCartRouter = require("./routes/removeFromCart");
 const CheckAdminStatusRouter = require("./routes/checkAdminStatus");
+const updateCartItemRouter = require("./routes/updateCartItem");
 
 // Initialize the app
 const app = express();
@@ -100,6 +101,7 @@ app.use("/add_products", addProductsRouter);
 app.use("/addToCart", addToCartRouter);
 app.use("/getCartItems", getCartItemsRouter);
 app.use("/removeFromCart", removeFromCartRouter);
+app.use("/updateCartItem", updateCartItemRouter);
 
 // Routes for checking user permissions
 app.use("/checkLoginStatus", CheckLoginStatusRouter);

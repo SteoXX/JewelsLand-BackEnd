@@ -6,30 +6,32 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const userId = req.session.userId;
-    const { productId, quantity } = req.body;
+    const { itemId, quantity } = req.body;
 
     const user = await User.findById(userId);
-    let cartItem = user.cart.find(
-      (item) => item.productId.toString() === productId
-    );
+    let cartItem = user.cart.id(itemId);
     if (cartItem) {
       cartItem.quantity = quantity;
       user.markModified("cart"); // Mark the cart as modified
     } else {
-      user.cart.push({ productId: productId, quantity: quantity });
+      return res.status(400).json({
+        status: "ItemNotFound",
+        message: "The item was not found in the cart.",
+      });
     }
 
     await user.save();
 
     res.json({
-      status: "ProductAdded",
-      message: "Product added to cart successfully!",
+      status: "ItemUpdated",
+      message: "Cart item updated successfully!",
+      itemQuantity: quantity,
     });
   } catch (error) {
-    console.error("Failed to add product to cart:", error);
+    console.error("Failed to update cart item:", error);
     res
       .status(500)
-      .json({ status: "Error", message: "Failed to add product to cart." });
+      .json({ status: "Error", message: "Failed to update cart item." });
   }
 });
 

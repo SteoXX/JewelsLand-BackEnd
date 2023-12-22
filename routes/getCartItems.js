@@ -9,7 +9,6 @@ router.get("/", async (req, res) => {
 
     // Find the user in the database and populate the products in the cart
     const user = await User.findById(userId).populate("cart.productId");
-    console.log(user.cart);
 
     // Send the cart items in the response
     res.json({ items: user.cart });

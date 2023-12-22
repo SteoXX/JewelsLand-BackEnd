@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const User = require("../collections");
 
 const router = express.Router();
@@ -14,8 +15,26 @@ router.post("/", async (req, res) => {
     // Find the user in the database
     const user = await User.findById(userId);
 
+    if (!user) {
+      return res.status(404).json({
+        status: "UserNotFound",
+        message: "User not found.",
+      });
+    }
+
     // Remove the item from the user's cart
-    user.cart = user.cart.filter((id) => id.toString() !== itemId); // Filter create a new array with all the items that do not matche the one we wanna remove
+    const itemIndex = user.cart.findIndex(
+      (item) => item._id.toString() === itemId
+    );
+
+    if (itemIndex === -1) {
+      return res.status(404).json({
+        status: "ItemNotFound",
+        message: "The item was not found in the cart.",
+      });
+    }
+
+    user.cart.splice(itemIndex, 1);
 
     // Save the updated user
     await user.save();
