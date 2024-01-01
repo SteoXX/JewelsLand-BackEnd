@@ -61,7 +61,6 @@ app.use(
 try {
   // Connect to MongoDB
   await mongoose.connect(process.env.MONGODB_URL);
-  console.log("MongoDB connected");
 
   // Initialize the session
   app.use(
