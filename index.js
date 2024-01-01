@@ -58,30 +58,36 @@ app.use(
 );
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URL);
+try {
+  // Connect to MongoDB
+  await mongoose.connect(process.env.MONGODB_URL);
+  console.log("MongoDB connected");
 
-// Inizialize the session
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET_KEY,
-    resave: false,
-    saveUninitialized: false,
-    httpOnly: false,
-    store: MongoStore.create({
-      client: mongoose.connection.getClient(),
-      dbName: "JewelsLand",
-      collectionName: "sessions",
-      stringify: false,
-      autoRemove: "interval",
-      autoRemoveInterval: 1,
-    }),
-    cookie: {
-      sameSite: "none",
-      secure: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-    },
-  })
-);
+  // Initialize the session
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET_KEY,
+      resave: false,
+      saveUninitialized: false,
+      httpOnly: false,
+      store: MongoStore.create({
+        client: mongoose.connection.getClient(),
+        dbName: "JewelsLand",
+        collectionName: "sessions",
+        stringify: false,
+        autoRemove: "interval",
+        autoRemoveInterval: 1,
+      }),
+      cookie: {
+        sameSite: "none",
+        secure: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      },
+    })
+  );
+} catch (err) {
+  console.error("Error connecting to MongoDB:", err);
+}
 
 // Routes for login/register/verify...
 app.use("/register", registerRouter);
