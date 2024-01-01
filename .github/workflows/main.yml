@@ -17,4 +17,4 @@ jobs:
           sudo docker stop jewelsland-backend-container || true
           sudo docker rm jewelsland-backend-container || true
           echo "${{ secrets.ENV_FILE }}" > .env
-          sudo docker run -d --name jewelsland-backend-container -p 443:443 --env-file .env jewelsland-backend:latest
+          sudo docker run -d --name jewelsland-backend-container -p 443:443 -v /home/stefanogarda/actions-runner-jewelsland-backend/_work/JewelsLand-BackEnd/JewelsLand-BackEnd:/cert jewelsland-backend:latest
