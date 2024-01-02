@@ -124,8 +124,6 @@ const httpsServer = https.createServer(
   },
   app
 );
-console.log(path.join(__dirname, "cert", "key.pem"));
-console.log(path.join(__dirname, "cert", "cert.pem"));
 
 httpsServer.listen(process.env.HTTPSPort, () =>
   console.log(`HTTPS server is listening on port ${process.env.HTTPSPort}`)
