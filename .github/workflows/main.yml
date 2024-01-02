@@ -18,3 +18,6 @@ jobs:
           sudo docker rm jewelsland-backend-container || true
           echo "${{ secrets.ENV_FILE }}" > .env
           sudo docker run -d --name jewelsland-backend-container -p 443:443 --env-file .env -v /home/stefanogarda/actions-runner-jewelsland-backend/_work/JewelsLand-BackEnd/JewelsLand-BackEnd:/app jewelsland-backend:latest
+
+      - name: List Contents of /app in Docker Container
+        run: sudo docker exec jewelsland-backend-container ls -la /app

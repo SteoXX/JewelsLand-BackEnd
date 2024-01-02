@@ -15,7 +15,6 @@ RUN npm install
 
 # Copy the rest of the application code to the working directory
 COPY . .
-RUN ls -la /app
 
 # Make port 443 available outside the container
 EXPOSE 443
