@@ -34,4 +34,4 @@ jobs:
           sudo docker run -d --name jewelsland-backend-container -p 443:443 --env-file .env -v /home/stefanogarda/actions-runner-jewelsland-backend/_work/JewelsLand-BackEnd/JewelsLand-BackEnd/cert/key.pem:/app/cert/key.pem -v /home/stefanogarda/actions-runner-jewelsland-backend/_work/JewelsLand-BackEnd/JewelsLand-BackEnd/cert/cert.pem:/app/cert/cert.pem jewelsland-backend:latest
 
       - name: List Contents of /app in Docker Container
-        run: sudo docker exec jewelsland-backend-container ls -la /app
+        run: sudo docker exec jewelsland-backend-container ls -la //cert
