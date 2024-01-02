@@ -10,9 +10,15 @@ COPY package*.json ./
 # Install the application dependencies
 RUN npm install
 
+# Create a new directory named 'cert'
+RUN mkdir cert
+
+# Copy cert.pem and key.pem into the 'cert' directory
+COPY cert.pem cert/
+COPY key.pem cert/
+
 # Copy the rest of the application code to the working directory
 COPY . .
-COPY cert ./
 
 # Make port 443 available outside the container
 EXPOSE 443
