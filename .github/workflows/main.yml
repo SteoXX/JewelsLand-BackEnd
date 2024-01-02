@@ -23,7 +23,7 @@ jobs:
         run: |
           sudo docker stop jewelsland-backend-container || true
           sudo docker rm jewelsland-backend-container || true
-          sudo docker run -d --name jewelsland-backend-container -p 443:443 --env-file .env jewelsland-backend:latest
+          sudo docker run -d --name jewelsland-backend-container -p 443:443 --env-file .env jewelsland-backend:2.0
 
       - name: List Contents of / in Docker Container
         run: sudo docker exec jewelsland-backend-container ls -la /
