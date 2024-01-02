@@ -60,7 +60,7 @@ app.use(
 // Connect to MongoDB
 try {
   // Connect to MongoDB
-  await mongoose.connect(process.env.MONGODB_URL);
+  mongoose.connect(process.env.MONGODB_URL);
 
   // Initialize the session
   app.use(
