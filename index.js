@@ -30,12 +30,6 @@ const removeFromCartRouter = require("./routes/removeFromCart");
 const CheckAdminStatusRouter = require("./routes/checkAdminStatus");
 const updateCartItemRouter = require("./routes/updateCartItem");
 
-console.log("Current directory:", process.cwd());
-console.log(
-  "Contents of cert directory:",
-  fs.readdirSync(path.join(__dirname, "cert"))
-);
-
 // Initialize the app
 const app = express();
 
