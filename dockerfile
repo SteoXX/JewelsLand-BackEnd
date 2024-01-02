@@ -13,9 +13,9 @@ RUN npm install
 # Create a new directory named 'cert'
 RUN mkdir cert
 
-# Copy cert.pem and key.pem into the 'cert' directory
-COPY cert.pem cert/
-COPY key.pem cert/
+# Copy cert.pem and key.pem from your 'cert' directory into the 'cert' directory in the container
+COPY cert/cert.pem cert/
+COPY cert/key.pem cert/
 
 # Copy the rest of the application code to the working directory
 COPY . .
