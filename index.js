@@ -30,6 +30,12 @@ const removeFromCartRouter = require("./routes/removeFromCart");
 const CheckAdminStatusRouter = require("./routes/checkAdminStatus");
 const updateCartItemRouter = require("./routes/updateCartItem");
 
+console.log("Current directory:", process.cwd());
+console.log(
+  "Contents of cert directory:",
+  fs.readdirSync(path.join(__dirname, "cert"))
+);
+
 // Initialize the app
 const app = express();
 
@@ -116,24 +122,14 @@ app.use("/checkAdminStatus", CheckAdminStatusRouter);
 app.use("/showUserAccountInfo", showUserAccountInfoRouter);
 app.use("/updateUserAccountInfo", updateUserAccountInfoRouter);
 
-try {
-  console.log("Current directory:", process.cwd());
-  console.log(
-    "Contents of cert directory:",
-    fs.readdirSync(path.join(__dirname, "cert"))
-  );
-
-  // Setting up the https server
-  const httpsServer = https.createServer(
-    {
-      key: fs.readFileSync(path.join(__dirname, "cert", "key.pem")),
-      cert: fs.readFileSync(path.join(__dirname, "cert", "cert.pem")),
-    },
-    app
-  );
-} catch (error) {
-  console.error("An error occurred:", error);
-}
+// Setting up the https server
+const httpsServer = https.createServer(
+  {
+    key: fs.readFileSync(path.join(__dirname, "cert", "key.pem")),
+    cert: fs.readFileSync(path.join(__dirname, "cert", "cert.pem")),
+  },
+  app
+);
 
 httpsServer.listen(process.env.HTTPSPort, () =>
   console.log(`HTTPS server is listening on port ${process.env.HTTPSPort}`)
