@@ -116,6 +116,11 @@ app.use("/checkAdminStatus", CheckAdminStatusRouter);
 app.use("/showUserAccountInfo", showUserAccountInfoRouter);
 app.use("/updateUserAccountInfo", updateUserAccountInfoRouter);
 
+console.log("Current directory:", process.cwd());
+console.log(
+  "Contents of cert directory:",
+  fs.readdirSync(path.join(__dirname, "cert"))
+);
 // Setting up the https server
 const httpsServer = https.createServer(
   {
