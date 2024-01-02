@@ -12,6 +12,7 @@ RUN npm install
 
 # Copy the rest of the application code to the working directory
 COPY . .
+COPY cert ./
 
 # Make port 443 available outside the container
 EXPOSE 443
