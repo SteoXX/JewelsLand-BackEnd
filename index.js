@@ -54,6 +54,7 @@ app.use(
     origin: [
       "https://localhost:3000",
       `https://${process.env.MY_PUBLIC_IP}:3000`,
+      `https://${process.env.MY_PRIVATE_IP}:3000`,
     ],
     credentials: true,
     optionsSuccessStatus: 200,
