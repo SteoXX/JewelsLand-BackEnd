@@ -51,7 +51,10 @@ app.use(bodyParser.json());
 // Defining the cors for cross origin requests
 app.use(
   cors({
-    origin: "https://localhost:3000",
+    origin: [
+      "https://localhost:3000",
+      `https://${process.env.MY_PUBLIC_IP}:3000`,
+    ],
     credentials: true,
     optionsSuccessStatus: 200,
   })

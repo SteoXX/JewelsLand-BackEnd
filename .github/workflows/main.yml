@@ -12,9 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Print Working Directory
-        run: pwd
-
       - name: Write .env file
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
@@ -24,6 +21,3 @@ jobs:
           sudo docker stop jewelsland-backend-container || true
           sudo docker rm jewelsland-backend-container || true
           sudo docker run -d --network=host --name jewelsland-backend-container -p 443:443 --env-file .env jewelsland-backend:2.0
-
-      - name: List Contents of / in Docker Container
-        run: sudo docker exec jewelsland-backend-container ls -la /
