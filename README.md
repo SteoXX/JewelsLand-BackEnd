@@ -1,6 +1,9 @@
 # JewisLand-BackEnd
 
-install dependencies:
+## install dependencies:
+
 npm i
+
+## run the program
 
 node .
