@@ -7,3 +7,4 @@ npm i
 ## run the program
 
 node .
+ 
